@@ -7,8 +7,9 @@ from PIL import Image, ImageTk
 
 root = Tk()
 root.title("Smart Weather App")
-root.geometry("1500x900")
+root.geometry("1200x800")
 root.configure(bg="#1f2235")
+root.fg=fg="#FFFFFF"
 
 # Load background image
 #img = Image.open("bg.jpg")
@@ -47,20 +48,54 @@ def check_alarm():
 
 def fetch_weather(city):
     api_key = "f039303aee5d5b8a2d6691f4fd6c1223"
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
+
+    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
     try:
-        data = requests.get(url).json()
+        response = requests.get(url)
+        print(response.text)  # Debug output
+
+        data = response.json()
+
         if data.get("cod") == 200:
             temp = data["main"]["temp"]
-            desc = data["weather"][0]["description"]
-            weather_label.config(text=f"{city}: {temp}°C, {desc}")
+            desc = data["weather"][0]["description"].lower()
+
+            color = "#FFFFFF"
+            icon = "🌤"
+
+            if "clear" in desc:
+                color = "#F1C40F"
+                icon = "☀"
+
+            elif "rain" in desc:
+                color = "#3498DB"
+                icon = "🌧"
+
+            elif "cloud" in desc:
+                color = "#BDC3C7"
+                icon = "☁"
+
+            elif "snow" in desc:
+                color = "#ECF0F1"
+                icon = "❄"
+
+            weather_label.config(
+                text=f"{icon} {city}: {temp}°C, {desc.title()}",
+                fg=color
+            )
+
         else:
-            weather_label.config(text=f"{city}: Not found")
-    except:
-        weather_label.config(text="Weather error")
+            weather_label.config(
+                text=f"Error: {data.get('message')}",
+                fg="red"
+            )
 
-
+    except Exception as e:
+        weather_label.config(
+            text=f"Error: {e}",
+            fg="red"
+        )
 
 
 #  CLOCK 
@@ -76,19 +111,22 @@ def update_clocks():
 
     if 6 <= hour < 18:
         # Day Theme
+        title = "☀️ Smart Weather Dashboard - Day Mode"
+    
         root.configure(bg="#87CEEB")
 
-        main_clock.config(bg="#87CEEB", fg="black")
-        day_label.config(bg="#87CEEB", fg="navy")
-        date_label.config(bg="#87CEEB", fg="darkorange")
+        main_clock.config(fg="#1F2937", bg="#87CEEB")   # Dark blue text
+        day_label.config(fg="#0C4A6E", bg="#87CEEB")    # Deep sky blue
+        date_label.config(fg="#F59E0B", bg="#87CEEB")   # Warm orange
 
     else:
         # Night Theme
+        title = "🌙 Smart Weather Dashboard - Night Mode"
         root.configure(bg="#1f2235")
 
-        main_clock.config(bg="#1f2235", fg="white")
-        day_label.config(bg="#1f2235", fg="#66ccff")
-        date_label.config(bg="#1f2235", fg="orange")
+        main_clock.config(fg="#FFFFFF", bg="#1F2235")   # White
+        day_label.config(fg="#60A5FA", bg="#1F2235")    # Light blue
+        date_label.config(fg="#FBBF24", bg="#1F2235")
 
     # Update Clock
     main_clock.config(text=now.strftime("%I:%M:%S %p"))
@@ -116,11 +154,16 @@ def update_clocks():
 
 Label( root,
     text="🌤 Smart Weather Dashboard",
-    font=("Segoe UI", 28, "bold"),
+    font=("Segoe UI", 30, "bold"),
     fg="white",
     bg="#1f2235").pack(pady=10)
 
-main_clock = Label(root, font=("Consolas", 30, "bold"), fg="white", bg="#232433")
+main_clock = Label(
+    root,
+    font=("Consolas", 25, "bold"),
+    fg="#FFFFFF",
+    bg="#1F2235"
+)
 main_clock.pack()
 
 day_label = Label(root, font=("Arial", 18,'bold'), fg="navy", bg="#232433")
@@ -137,35 +180,59 @@ date_label.pack()
 
 
 
-weather_label = Label(root, text="Weather loading...", bg="#2596be", fg="black", font=("Arial", 14, "bold"))
+weather_label = Label(
+    root,
+    text="Weather loading...",
+    bg="#2C3E50",
+    fg="white",
+    font=("Segoe UI", 14, "bold"),
+    padx=10,
+    pady=5
+)
 weather_label.pack(pady=10)
+
+# Weather Buttons
 
 Button(
     root,
     text="Get Dhaka Weather",
     command=lambda: fetch_weather("Dhaka"),
-    font=("Segoe UI", 12, "bold"),
-    bg="#3498db",
+    bg="#3498DB",
     fg="white",
-).pack(pady=5)
+    activebackground="#2980B9",
+    activeforeground="white",
+    relief="flat",
+    font=("Segoe UI", 10, "bold"),
+    cursor="hand2"
+).pack(pady=10)
 
 Button(
     root,
     text="Get Tokyo Weather",
     command=lambda: fetch_weather("Tokyo"),
-    font=("Segoe UI", 12, "bold"),
-    bg="#3498db",
+    bg="#3498DB",
     fg="white",
-).pack(pady=5)
+    activebackground="#2980B9",
+    activeforeground="white",
+    relief="flat",
+    font=("Segoe UI", 10, "bold"),
+    cursor="hand2"
+).pack(pady=10)
 
 Button(
     root,
     text="Get Seoul Weather",
     command=lambda: fetch_weather("Seoul"),
-    font=("Segoe UI", 12, "bold"),
-    bg="#3498db",
+    bg="#3498DB",
     fg="white",
-).pack(pady=5)
+    activebackground="#2980B9",
+    activeforeground="white",
+    relief="flat",
+    font=("Segoe UI", 10, "bold"),
+    cursor="hand2"
+).pack(pady=10)
+
+
 
 
 
@@ -179,9 +246,9 @@ Button(
 clock_frame = Frame(root, bg="#2596be")
 clock_frame.pack(pady=10)
 
-Dhaka_label = Label(clock_frame, fg="white", bg="#1f2235", font=("Consolas", 20, "bold")); Dhaka_label.pack()
-Tokyo_label = Label(clock_frame, fg="white", bg="#1f2235", font=("Consolas", 20, "bold")); Tokyo_label.pack()
-Seoul_label = Label(clock_frame, fg="white", bg="#1f2235", font=("Consolas", 20, "bold")); Seoul_label.pack()
+Dhaka_label = Label(clock_frame, fg="#E5E7EB",bg="#1F2235", font=("Consolas", 15, "bold")); Dhaka_label.pack()
+Tokyo_label = Label(clock_frame, fg="#E5E7EB", bg="#1F2235", font=("Consolas", 15, "bold")); Tokyo_label.pack()
+Seoul_label = Label(clock_frame, fg="#E5E7EB", bg="#1F2235", font=("Consolas", 15, "bold")); Seoul_label.pack()
 
 
 

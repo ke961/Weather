@@ -31,7 +31,7 @@ root.title(
 )
 root.geometry("1200x800")
 root.configure(bg="#1f2235")
-root.fg=fg="#FFFFFF"
+root.fg="#FFFFFF"
 
 # Load background image
 #img = Image.open("bg.jpg")
@@ -139,24 +139,29 @@ def update_clocks():
 
         root.configure(bg="#87CEEB")
 
+        title_label.config(
+            bg="#87CEEB",
+            fg="#1F2937"
+        )
+
         main_clock.config(
-            fg="#1F2937",
-            bg="#87CEEB"
+            bg="#87CEEB",
+            fg="#1F2937"
         )
 
         day_label.config(
-            fg="#0C4A6E",
-            bg="#87CEEB"
+            bg="#87CEEB",
+            fg="#0C4A6E"
         )
 
         date_label.config(
-            fg="#F59E0B",
-            bg="#87CEEB"
+            bg="#87CEEB",
+            fg="#F59E0B"
         )
 
         city_label.config(
-            fg="#0C4A6E",
-            bg="#87CEEB"
+            bg="#87CEEB",
+            fg="#0C4A6E"
         )
 
         weather_label.config(
@@ -175,33 +180,49 @@ def update_clocks():
             bg="#87CEEB"
         )
 
-        Dhaka_label.config(bg="#87CEEB")
-        Tokyo_label.config(bg="#87CEEB")
-        Seoul_label.config(bg="#87CEEB")
+        Dhaka_label.config(
+            bg="#87CEEB",
+            fg="#1F2937"
+        )
+
+        Tokyo_label.config(
+            bg="#87CEEB",
+            fg="#1F2937"
+        )
+
+        Seoul_label.config(
+            bg="#87CEEB",
+            fg="#1F2937"
+        )
 
     # NIGHT THEME
     else:
 
         root.configure(bg="#1F2235")
 
+        title_label.config(
+            bg="#1F2235",
+            fg="white"
+        )
+
         main_clock.config(
-            fg="#FFFFFF",
-            bg="#1F2235"
+            bg="#1F2235",
+            fg="white"
         )
 
         day_label.config(
-            fg="#60A5FA",
-            bg="#1F2235"
+            bg="#1F2235",
+            fg="#60A5FA"
         )
 
         date_label.config(
-            fg="#FBBF24",
-            bg="#1F2235"
+            bg="#1F2235",
+            fg="#FBBF24"
         )
 
         city_label.config(
-            fg="#FFFFFF",
-            bg="#1F2235"
+            bg="#1F2235",
+            fg="white"
         )
 
         weather_label.config(
@@ -220,11 +241,27 @@ def update_clocks():
             bg="#1F2235"
         )
 
-        Dhaka_label.config(bg="#1F2235")
-        Tokyo_label.config(bg="#1F2235")
-        Seoul_label.config(bg="#1F2235")
+        Dhaka_label.config(
+            bg="#1F2235",
+            fg="white"
+        )
 
-    # Main Clock
+        Tokyo_label.config(
+            bg="#1F2235",
+            fg="white"
+        )
+
+        Seoul_label.config(
+            bg="#1F2235",
+            fg="white"
+        )
+
+    # Update title
+    root.title(
+        f"🌤 Smart Weather Dashboard - {selected_city}"
+    )
+
+    # Local clock
     now = datetime.now()
 
     main_clock.config(
@@ -239,37 +276,40 @@ def update_clocks():
         text=now.strftime("%d %B %Y")
     )
 
+    # World clocks
     Dhaka_label.config(
-        text=datetime.now(
-            ZoneInfo("Asia/Dhaka")
-        ).strftime("Dhaka  %I:%M:%S %p")
-    )
+    text="Dhaka : " +
+    datetime.now(
+        ZoneInfo("Asia/Dhaka")
+    ).strftime("%I:%M:%S %p"))
 
     Tokyo_label.config(
-        text=datetime.now(
-            ZoneInfo("Asia/Tokyo")
-        ).strftime("Tokyo  %I:%M:%S %p")
-    )
+    text="Tokyo : " +
+    datetime.now(
+        ZoneInfo("Asia/Tokyo")
+    ).strftime("%I:%M:%S %p"))
 
     Seoul_label.config(
-        text=datetime.now(
-            ZoneInfo("Asia/Seoul")
-        ).strftime("Seoul  %I:%M:%S %p")
-    )
+    text="Seoul : " +
+    datetime.now(
+        ZoneInfo("Asia/Seoul")
+    ).strftime("%I:%M:%S %p"))
 
-    root.after(1000, update_clocks)
-
+root.after(1000, update_clocks)
 
 
  #UI
 
 
 
-Label( root,
+title_label = Label(
+    root,
     text="🌤 Smart Weather Dashboard",
     font=("Segoe UI", 30, "bold"),
     fg="white",
-    bg="#1f2235").pack(pady=10)
+    bg="#1f2235"
+)
+title_label.pack(pady=10)
 
 main_clock = Label(
     root,
@@ -432,4 +472,3 @@ change_city()
 
 root.mainloop()
 
-root.mainloop()

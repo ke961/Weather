@@ -3,11 +3,27 @@ from logging import root
 from tkinter import Label, Tk
 from zoneinfo import ZoneInfo
 import time
+import threading
+import requests
+
+
+
+#for the sound of alarm
+try:
+    from pygame import mixer
+    mixer.init()
+    sound_available = True
+
+except:
+    sound_available = False
+
+
 
 #for the window
 root = Tk()
 root.title("Smart Weather App")
 root.geometry("15000x9000")
+root.configure(bg="#2596be")
 
 
 #for the title

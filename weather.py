@@ -1,21 +1,18 @@
-from tkinter import *
-from tkcalendar import Calendar
 from datetime import datetime
 from zoneinfo import ZoneInfo
-import requests
-import threading
 
+dhaka = datetime.now(ZoneInfo("Asia/Dhaka"))
+tokyo = datetime.now(ZoneInfo("Asia/Tokyo"))
+seoul = datetime.now(ZoneInfo("Asia/Seoul"))
 
-# Weather Display
-Dhaka = datetime.now(ZoneInfo('Asia/Dhaka'))
-Busan = datetime.now(ZoneInfo('Asia/Busan'))
-Tokyo = datetime.now(ZoneInfo('Asia/Tokyo'))
-Seoul = datetime.now(ZoneInfo('Asia/Seoul'))
-Shenzhen = datetime.now(ZoneInfo('Asia/Shenzhen'))
+# Busan uses the same timezone as Seoul
+busan = datetime.now(ZoneInfo("Asia/Seoul"))
 
+# Shenzhen uses the same timezone as Shanghai
+shenzhen = datetime.now(ZoneInfo("Asia/Shanghai"))
 
-print("Dhaka:", Dhaka.strftime("%Y-%m-%d %H:%M:%S"))
-print("Busan:", Busan.strftime("%Y-%m-%d %H:%M:%S"))
-print("Tokyo:", Tokyo.strftime("%Y-%m-%d %H:%M:%S"))
-print("Seoul:", Seoul.strftime("%Y-%m-%d %H:%M:%S"))
-print("Shenzhen:", Shenzhen.strftime("%Y-%m-%d %H:%M:%S"))
+print("Dhaka:", dhaka.strftime("%Y-%m-%d \n Time: %H:%M:%S"))
+print("Busan:", busan.strftime("%Y-%m-%d \n Time: %H:%M:%S"))
+print("Tokyo:", tokyo.strftime("%Y-%m-%d \n Time: %H:%M:%S"))
+print("Seoul:", seoul.strftime("%Y-%m-%d \n Time: %H:%M:%S"))
+print("Shenzhen:", shenzhen.strftime("%Y-%m-%d \n Time: %H:%M:%S"))

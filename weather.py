@@ -4,9 +4,31 @@ from zoneinfo import ZoneInfo
 import requests
 from tkcalendar import Calendar
 from PIL import Image, ImageTk
+import random
+
+cities = ["Dhaka", "Tokyo", "Seoul"]
+
+city_timezones = {
+    "Dhaka": "Asia/Dhaka",
+    "Tokyo": "Asia/Tokyo",
+    "Seoul": "Asia/Seoul"
+}
+
+selected_city = random.choice(cities)
+
+
+
+
+
+
+
+
+
 
 root = Tk()
-root.title("Smart Weather App")
+root.title(
+    f"🌤 Smart Weather Dashboard - {selected_city}"
+)
 root.geometry("1200x800")
 root.configure(bg="#1f2235")
 root.fg=fg="#FFFFFF"
@@ -38,6 +60,7 @@ def check_alarm():
         if current_time == alarm_time:
             alarm_status.config(text="⏰ Alarm Time Reached!")
     root.after(1000, check_alarm)
+
 
 
 
@@ -104,47 +127,137 @@ def fetch_weather(city):
 
 
 def update_clocks():
-    now = datetime.now()
 
-    # Day/Night Theme
-    hour = now.hour
+    city_now = datetime.now(
+        ZoneInfo(city_timezones[selected_city])
+    )
 
+    hour = city_now.hour
+
+    # DAY THEME
     if 6 <= hour < 18:
-        # Day Theme
-        title = "☀️ Smart Weather Dashboard - Day Mode"
-    
+
         root.configure(bg="#87CEEB")
 
-        main_clock.config(fg="#1F2937", bg="#87CEEB")   # Dark blue text
-        day_label.config(fg="#0C4A6E", bg="#87CEEB")    # Deep sky blue
-        date_label.config(fg="#F59E0B", bg="#87CEEB")   # Warm orange
+        main_clock.config(
+            fg="#1F2937",
+            bg="#87CEEB"
+        )
 
+        day_label.config(
+            fg="#0C4A6E",
+            bg="#87CEEB"
+        )
+
+        date_label.config(
+            fg="#F59E0B",
+            bg="#87CEEB"
+        )
+
+        city_label.config(
+            fg="#0C4A6E",
+            bg="#87CEEB"
+        )
+
+        weather_label.config(
+            bg="#DFF6FF"
+        )
+
+        clock_frame.config(
+            bg="#87CEEB"
+        )
+
+        alarm_frame.config(
+            bg="#87CEEB"
+        )
+
+        alarm_status.config(
+            bg="#87CEEB"
+        )
+
+        Dhaka_label.config(bg="#87CEEB")
+        Tokyo_label.config(bg="#87CEEB")
+        Seoul_label.config(bg="#87CEEB")
+
+    # NIGHT THEME
     else:
-        # Night Theme
-        title = "🌙 Smart Weather Dashboard - Night Mode"
-        root.configure(bg="#1f2235")
 
-        main_clock.config(fg="#FFFFFF", bg="#1F2235")   # White
-        day_label.config(fg="#60A5FA", bg="#1F2235")    # Light blue
-        date_label.config(fg="#FBBF24", bg="#1F2235")
+        root.configure(bg="#1F2235")
 
-    # Update Clock
-    main_clock.config(text=now.strftime("%I:%M:%S %p"))
-    day_label.config(text=now.strftime("%A"))
-    date_label.config(text=now.strftime("%d %B %Y"))
+        main_clock.config(
+            fg="#FFFFFF",
+            bg="#1F2235"
+        )
+
+        day_label.config(
+            fg="#60A5FA",
+            bg="#1F2235"
+        )
+
+        date_label.config(
+            fg="#FBBF24",
+            bg="#1F2235"
+        )
+
+        city_label.config(
+            fg="#FFFFFF",
+            bg="#1F2235"
+        )
+
+        weather_label.config(
+            bg="#2C3E50"
+        )
+
+        clock_frame.config(
+            bg="#1F2235"
+        )
+
+        alarm_frame.config(
+            bg="#1F2235"
+        )
+
+        alarm_status.config(
+            bg="#1F2235"
+        )
+
+        Dhaka_label.config(bg="#1F2235")
+        Tokyo_label.config(bg="#1F2235")
+        Seoul_label.config(bg="#1F2235")
+
+    # Main Clock
+    now = datetime.now()
+
+    main_clock.config(
+        text=now.strftime("%I:%M:%S %p")
+    )
+
+    day_label.config(
+        text=now.strftime("%A")
+    )
+
+    date_label.config(
+        text=now.strftime("%d %B %Y")
+    )
 
     Dhaka_label.config(
-        text=datetime.now(ZoneInfo("Asia/Dhaka")).strftime("Dhaka %I:%M:%S %p")
+        text=datetime.now(
+            ZoneInfo("Asia/Dhaka")
+        ).strftime("Dhaka  %I:%M:%S %p")
     )
+
     Tokyo_label.config(
-        text=datetime.now(ZoneInfo("Asia/Tokyo")).strftime("Tokyo %I:%M:%S %p")
+        text=datetime.now(
+            ZoneInfo("Asia/Tokyo")
+        ).strftime("Tokyo  %I:%M:%S %p")
     )
+
     Seoul_label.config(
-        text=datetime.now(ZoneInfo("Asia/Seoul")).strftime("Seoul %I:%M:%S %p")
+        text=datetime.now(
+            ZoneInfo("Asia/Seoul")
+        ).strftime("Seoul  %I:%M:%S %p")
     )
 
     root.after(1000, update_clocks)
-
 
 
 
@@ -171,6 +284,34 @@ day_label.pack()
 
 date_label = Label(root, font=("Segoe UI", 14,'bold'), fg="orange", bg="#232433")
 date_label.pack()
+
+city_label = Label(
+    root,
+    text=f"Selected City: {selected_city}",
+    font=("Segoe UI", 18, "bold"),
+    fg="white",
+    bg="#1F2235"
+)
+city_label.pack(pady=5)
+
+def change_city():
+    global selected_city
+
+    selected_city = random.choice(cities)
+
+    root.title(
+        f"🌤 Smart Weather Dashboard - {selected_city}"
+    )
+
+    city_label.config(
+        text=f"Selected City: {selected_city}"
+    )
+
+    fetch_weather(selected_city)
+
+    root.after(10000, change_city)
+
+
 
 
 
@@ -283,7 +424,12 @@ Calendar(root,bg="#0e4255",fg="Black").pack(pady=20)
 
 
 # START 
+fetch_weather(selected_city)
+
 update_clocks()
 check_alarm()
+change_city()
+
+root.mainloop()
 
 root.mainloop()

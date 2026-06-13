@@ -70,7 +70,7 @@ def check_alarm():
 
 
 def fetch_weather(city):
-    api_key = "f039303aee5d5b8a2d6691f4fd6c1223"
+    api_key = "API_Key"
 
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 

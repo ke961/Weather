@@ -135,7 +135,7 @@ def update_clocks():
     hour = city_now.hour
 
     # DAY THEME
-    if 6 <= hour < 18:
+    if 6 <= hour < 17:
 
         root.configure(bg="#87CEEB")
 

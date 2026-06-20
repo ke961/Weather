@@ -18,13 +18,6 @@ selected_city = random.choice(cities)
 
 
 
-
-
-
-
-
-
-
 root = Tk()
 root.title(
     f"🌤 Smart Weather Dashboard - {selected_city}"
@@ -70,7 +63,7 @@ def check_alarm():
 
 
 def fetch_weather(city):
-    api_key = "API_Key"
+    api_key = "f039303aee5d5b8a2d6691f4fd6c1223"
 
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
@@ -128,133 +121,111 @@ def fetch_weather(city):
 
 def update_clocks():
 
+    # Selected city clock
     city_now = datetime.now(
         ZoneInfo(city_timezones[selected_city])
     )
 
+  
+    # DAY / NIGHT THEME
+   
+
     hour = city_now.hour
 
-    # DAY THEME
     if 6 <= hour < 17:
 
         root.configure(bg="#87CEEB")
 
-        title_label.config(
-            bg="#87CEEB",
-            fg="#1F2937"
-        )
+        title_label.config(bg="#87CEEB", fg="#1F2937")
+        main_clock.config(bg="#87CEEB", fg="#1F2937")
+        day_label.config(bg="#87CEEB", fg="#0C4A6E")
+        date_label.config(bg="#87CEEB", fg="#F59E0B")
+        city_label.config(bg="#87CEEB", fg="#0C4A6E")
 
-        main_clock.config(
-            bg="#87CEEB",
-            fg="#1F2937"
-        )
+        weather_label.config(bg="#DFF6FF")
 
-        day_label.config(
-            bg="#87CEEB",
-            fg="#0C4A6E"
-        )
+        clock_frame.config(bg="#87CEEB")
+        alarm_frame.config(bg="#87CEEB")
+        alarm_status.config(bg="#87CEEB")
 
-        date_label.config(
-            bg="#87CEEB",
-            fg="#F59E0B"
-        )
+        Dhaka_label.config(bg="#87CEEB", fg="#1F2937")
+        Tokyo_label.config(bg="#87CEEB", fg="#1F2937")
+        Seoul_label.config(bg="#87CEEB", fg="#1F2937")
 
-        city_label.config(
-            bg="#87CEEB",
-            fg="#0C4A6E"
-        )
-
-        weather_label.config(
-            bg="#DFF6FF"
-        )
-
-        clock_frame.config(
-            bg="#87CEEB"
-        )
-
-        alarm_frame.config(
-            bg="#87CEEB"
-        )
-
-        alarm_status.config(
-            bg="#87CEEB"
-        )
-
-        Dhaka_label.config(
-            bg="#87CEEB",
-            fg="#1F2937"
-        )
-
-        Tokyo_label.config(
-            bg="#87CEEB",
-            fg="#1F2937"
-        )
-
-        Seoul_label.config(
-            bg="#87CEEB",
-            fg="#1F2937"
-        )
-
-    # NIGHT THEME
     else:
 
         root.configure(bg="#1F2235")
 
-        title_label.config(
-            bg="#1F2235",
-            fg="white"
-        )
+        title_label.config(bg="#1F2235", fg="white")
+        main_clock.config(bg="#1F2235", fg="white")
+        day_label.config(bg="#1F2235", fg="#60A5FA")
+        date_label.config(bg="#1F2235", fg="#FBBF24")
+        city_label.config(bg="#1F2235", fg="white")
 
-        main_clock.config(
-            bg="#1F2235",
-            fg="white"
-        )
+        weather_label.config(bg="#2C3E50")
 
-        day_label.config(
-            bg="#1F2235",
-            fg="#60A5FA"
-        )
+        clock_frame.config(bg="#1F2235")
+        alarm_frame.config(bg="#1F2235")
+        alarm_status.config(bg="#1F2235")
 
-        date_label.config(
-            bg="#1F2235",
-            fg="#FBBF24"
-        )
+        Dhaka_label.config(bg="#1F2235", fg="white")
+        Tokyo_label.config(bg="#1F2235", fg="white")
+        Seoul_label.config(bg="#1F2235", fg="white")
 
-        city_label.config(
-            bg="#1F2235",
-            fg="white"
-        )
+   
+    # MAIN CLOCK
+   
 
-        weather_label.config(
-            bg="#2C3E50"
-        )
+    main_clock.config(
+        text=city_now.strftime("%I:%M:%S %p")
+    )
 
-        clock_frame.config(
-            bg="#1F2235"
-        )
+    day_label.config(
+        text=city_now.strftime("%A")
+    )
 
-        alarm_frame.config(
-            bg="#1F2235"
-        )
+    date_label.config(
+        text=city_now.strftime("%d %B %Y")
+    )
 
-        alarm_status.config(
-            bg="#1F2235"
-        )
+    city_label.config(
+        text=f"Selected City: {selected_city}"
+    )
 
-        Dhaka_label.config(
-            bg="#1F2235",
-            fg="white"
-        )
+    
+    # WORLD CLOCKS
+   
 
-        Tokyo_label.config(
-            bg="#1F2235",
-            fg="white"
-        )
+    dhaka = datetime.now(
+        ZoneInfo("Asia/Dhaka")
+    )
 
-        Seoul_label.config(
-            bg="#1F2235",
-            fg="white"
-        )
+    tokyo = datetime.now(
+        ZoneInfo("Asia/Tokyo")
+    )
+
+    seoul = datetime.now(
+        ZoneInfo("Asia/Seoul")
+    )
+
+    Dhaka_label.config(
+        text=f"Dhaka  :  {dhaka.strftime('%I:%M:%S %p')}"
+    )
+
+    Tokyo_label.config(
+        text=f"Tokyo  :  {tokyo.strftime('%I:%M:%S %p')}"
+    )
+
+    Seoul_label.config(
+        text=f"Seoul  :  {seoul.strftime('%I:%M:%S %p')}"
+    )
+
+  
+    # UPDATE EVERY SECOND
+ 
+
+    root.after(1000, update_clocks)
+
 
     # Update title
     root.title(

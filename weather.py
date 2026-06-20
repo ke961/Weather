@@ -118,8 +118,12 @@ def fetch_weather(city):
 
 
 
-
+current_theme = None
 def update_clocks():
+
+
+    global current_theme
+
 
     # Selected city clock
     city_now = datetime.now(
@@ -128,49 +132,52 @@ def update_clocks():
 
   
     # DAY / NIGHT THEME
-   
 
     hour = city_now.hour
 
-    if 6 <= hour < 17:
+    new_theme= "day" if 6 <= hour < 17 else  "night"
 
-        root.configure(bg="#87CEEB")
+    if new_theme != current_theme:
+        current_theme=new_theme
+        
+        if new_theme== "day":
+           root.configure(bg="#87CEEB")
 
-        title_label.config(bg="#87CEEB", fg="#1F2937")
-        main_clock.config(bg="#87CEEB", fg="#1F2937")
-        day_label.config(bg="#87CEEB", fg="#0C4A6E")
-        date_label.config(bg="#87CEEB", fg="#F59E0B")
-        city_label.config(bg="#87CEEB", fg="#0C4A6E")
+           title_label.config(bg="#87CEEB", fg="#1F2937")
+           main_clock.config(bg="#87CEEB", fg="#1F2937")
+           day_label.config(bg="#87CEEB", fg="#0C4A6E")
+           date_label.config(bg="#87CEEB", fg="#F59E0B")
+           city_label.config(bg="#87CEEB", fg="#0C4A6E")
 
-        weather_label.config(bg="#DFF6FF")
+           weather_label.config(bg="#DFF6FF")
 
-        clock_frame.config(bg="#87CEEB")
-        alarm_frame.config(bg="#87CEEB")
-        alarm_status.config(bg="#87CEEB")
+           clock_frame.config(bg="#87CEEB")
+           alarm_frame.config(bg="#87CEEB")
+           alarm_status.config(bg="#87CEEB")
 
-        Dhaka_label.config(bg="#87CEEB", fg="#1F2937")
-        Tokyo_label.config(bg="#87CEEB", fg="#1F2937")
-        Seoul_label.config(bg="#87CEEB", fg="#1F2937")
+           Dhaka_label.config(bg="#87CEEB", fg="#1F2937")
+           Tokyo_label.config(bg="#87CEEB", fg="#1F2937")
+           Seoul_label.config(bg="#87CEEB", fg="#1F2937")
 
-    else:
+        else:
 
-        root.configure(bg="#1F2235")
+           root.configure(bg="#1F2235")
 
-        title_label.config(bg="#1F2235", fg="white")
-        main_clock.config(bg="#1F2235", fg="white")
-        day_label.config(bg="#1F2235", fg="#60A5FA")
-        date_label.config(bg="#1F2235", fg="#FBBF24")
-        city_label.config(bg="#1F2235", fg="white")
+           title_label.config(bg="#1F2235", fg="white")
+           main_clock.config(bg="#1F2235", fg="white")
+           day_label.config(bg="#1F2235", fg="#60A5FA")
+           date_label.config(bg="#1F2235", fg="#FBBF24")
+           city_label.config(bg="#1F2235", fg="white")
 
-        weather_label.config(bg="#2C3E50")
+           weather_label.config(bg="#2C3E50")
 
-        clock_frame.config(bg="#1F2235")
-        alarm_frame.config(bg="#1F2235")
-        alarm_status.config(bg="#1F2235")
+           clock_frame.config(bg="#1F2235")
+           alarm_frame.config(bg="#1F2235")
+           alarm_status.config(bg="#1F2235")
 
-        Dhaka_label.config(bg="#1F2235", fg="white")
-        Tokyo_label.config(bg="#1F2235", fg="white")
-        Seoul_label.config(bg="#1F2235", fg="white")
+           Dhaka_label.config(bg="#1F2235", fg="white")
+           Tokyo_label.config(bg="#1F2235", fg="white")
+           Seoul_label.config(bg="#1F2235", fg="white")
 
    
     # MAIN CLOCK

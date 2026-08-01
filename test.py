@@ -4,3 +4,4 @@ from zoneinfo import ZoneInfo
 print(datetime.now(ZoneInfo("Asia/Dhaka")))
 print(datetime.now(ZoneInfo("Asia/Rajshahi")))
 print(datetime.now(ZoneInfo("Asia/Chittagong")))
+print(datetime.now(ZoneInfo("Asia/Sylhet")))
